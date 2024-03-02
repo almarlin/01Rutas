@@ -1,0 +1,86 @@
+<%- include("template/header.ejs",{title:'Detalles de la miniatura'})%>
+<main>
+  <div class="container">
+    <h1 class="fw-light">
+      Detalles de la miniatura
+    </h1>
+    <% if (error) { %>
+    <%=mensaje%>
+    <% } %>
+
+    <% if (!error) { %>
+    <form id="editar" data-id="<%=miniature._id%>">
+
+      <input type="number" value="<%=miniature.id%>" class="form-control my-2" name="id" id="idInput">
+      <input type="text" value="<%=miniature.nombre%>" class="form-control my-2" name="nombre" id="nombreInput">
+      <input type="text" value="<%=miniature.tipo%>" class="form-control my-2" name="tipo" id="tipoInput">
+      <input type="text" value="<%=miniature.descripcion%>" class="form-control my-2" name="descripcion" id="descripcionInput">
+
+      <button type="submit" class="btn btn-primary mt-3">
+        Actualizar
+      </button>
+
+    </form>
+    <button id="eliminar" type="button" class="btn btn-danger mt-3" data-id="<%=miniature._id%>">
+      Eliminar
+    </button>
+    <% } %>
+
+  </div>
+  <!-- Para hacer plantillas utilizamos include('template/cabecera') e include('template/footer') -->
+
+
+</main>
+<script defer>
+  const btnEliminar = document.getElementById('eliminar');
+  btnEliminar.addEventListener('click', async () => {
+    console.log(btnEliminar.dataset.id)
+
+    try {
+      const data = await fetch(`/miniature/${btnEliminar.dataset.id}`, {
+        method: 'delete'
+      })
+
+      const res = await data.json()
+      console.log(res)
+
+      if (res.estado) {
+        window.location.href = '/miniature'
+
+      } else {
+        console.log(res)
+
+      }
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  });
+
+  const formEditar=document.getElementById('editar');
+  formEditar.addEventListener('submit',async(e)=>{
+    e.preventDefault()
+    const id=formEditar.elements['id'].value
+    const nombre=formEditar.elements['nombre'].value
+    const tipo=formEditar.elements['tipo'].value
+    const descripcion=formEditar.elements['descripcion'].value
+    const _id=formEditar.dataset.id
+    const data=await fetch(`/miniature/${_id}`,{
+        method:'PUT',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({id,nombre,tipo,descripcion})
+    })
+    const res =await data.json()
+    if(res.estado){
+        window.location.href='/miniature'
+    }else{
+        console.log(res)
+    }
+  })
+</script>
+
+
+<%- include("template/footer.ejs",{footerName:'Álvaro Martínez Lineros'})%>
