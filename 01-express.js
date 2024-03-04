@@ -3,6 +3,20 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+
+
+// Para subir imagenes
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Directorio donde se guardarán los archivos
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Nombre único del archivo
+  }
+});
+const upload = multer({ storage: storage });
+
 // Configuraciones de Express
 app.use(express.json()); // Parsear JSON
 app.use(express.urlencoded({ extended: false })); // Parsear datos de formulario urlencoded

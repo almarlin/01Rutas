@@ -1,6 +1,11 @@
 const express = require("express");
 const Miniature = require("../models/miniature");
 const router = express.Router();
+const upload = require('../upload'); // Asegúrate de que la ruta sea correcta
+
+
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -12,11 +17,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/crear", async (req, res) => {
+router.post("/crear", upload.single("foto"), async (req, res) => {
   const body = req.body;
+  const file = req.file;
   console.log(body);
+
   try {
-    // Verifica que se ha rellenado el formulario
+    // Verifica que se haya rellenado el formulario
     if (!body.id || !body.nombre || !body.faccion || !body.cantidad) {
       return res.json({
         estado: false,
@@ -24,19 +31,27 @@ router.post("/crear", async (req, res) => {
       });
     }
 
-    // Comprobamos si ya existe una miniatura con ese id
+    // Comprueba si ya existe una miniatura con ese id
     const existingMiniature = await Miniature.findOne({ id: body.id });
-    console.log(existingMiniature);
+
     if (existingMiniature) {
       res.json({
         estado: false,
         mensaje: "El id ya existe",
       });
     } else {
+      // Crea la miniatura si no existe otra con ese id en la bbdd
+      const miniDB = new Miniature({
+        id: body.id,
+        nombre: body.nombre,
+        faccion: body.faccion,
+        cantidad: body.cantidad,
+        // Añade la ruta del archivo al modelo de Miniature si es necesario
+        foto: file ? file.path : null,
+      });
 
-      // Creamos la miniatura si no existe otra con ese id en la bbdd
-      const miniDB = new Miniature(body);
       await miniDB.save();
+
       res.json({
         estado: true,
         mensaje: "Miniatura creada correctamente",

@@ -7,7 +7,9 @@ const miniSchema=new Schema({
     id:String,
     nombre:String,
     faccion:String,
-    cantidad:String
+    cantidad:String,
+    foto:String,
+
 });
 
 const Miniature = mongoose.model('miniature',miniSchema);
