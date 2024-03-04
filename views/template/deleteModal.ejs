@@ -1,0 +1,19 @@
+ <!-- Modal de eliminar -->
+ <div class="modal fade" id="modalEliminar-<%= miniature._id %>" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Contenido del modal para eliminar miniatura -->
+        <div class="modal-body">
+          <!-- Mensaje de confirmación -->
+          <p>¿Estás seguro de que quieres eliminar la miniatura?</p>
+
+          <!-- Botón de confirmación -->
+          <button type="button" class="btn btn-danger mt-3 eliminar" data-id="<%=miniature._id%>"
+            data-bs-dismiss="modal">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

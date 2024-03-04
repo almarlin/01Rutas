@@ -16,13 +16,33 @@ router.post("/crear", async (req, res) => {
   const body = req.body;
   console.log(body);
   try {
-    const miniDB = new Miniature(body);
-    await miniDB.save();
-    res.json({
-      estado: true,
-      mensaje: "Miniatura creada correctamente",
-      miniature: miniDB,
-    });
+    // Verifica que se ha rellenado el formulario
+    if (!body.id || !body.nombre || !body.faccion || !body.cantidad) {
+      return res.json({
+        estado: false,
+        mensaje: "Todos los campos son obligatorios",
+      });
+    }
+
+    // Comprobamos si ya existe una miniatura con ese id
+    const existingMiniature = await Miniature.findOne({ id: body.id });
+    console.log(existingMiniature);
+    if (existingMiniature) {
+      res.json({
+        estado: false,
+        mensaje: "El id ya existe",
+      });
+    } else {
+
+      // Creamos la miniatura si no existe otra con ese id en la bbdd
+      const miniDB = new Miniature(body);
+      await miniDB.save();
+      res.json({
+        estado: true,
+        mensaje: "Miniatura creada correctamente",
+        miniature: miniDB,
+      });
+    }
   } catch (error) {
     res.json({
       estado: false,

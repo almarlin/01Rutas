@@ -1,0 +1,27 @@
+<div class="modal fade" id="modalEditar<%= miniature._id %>" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Cabecera del modal -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar Miniatura</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- Contenido del modal para editar miniatura -->
+        <div class="modal-body">
+          <!-- Formulario de edición -->
+          <form class="editar" id="formEditar-<%= miniature._id %>" data-id="<%= miniature._id %>">
+            <div class="mb-3">
+              <label for="cantidad" class="form-label">Cantidad:</label>
+              <input type="number" class="form-control" id="cantidad" name="cantidad"
+                value="<%= miniature.cantidad %>">
+            </div>
+
+            <!-- Botón de envío del formulario -->
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar Cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
