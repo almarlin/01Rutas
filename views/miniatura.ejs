@@ -29,6 +29,7 @@
         <thead>
           <tr>
             <th scope="col">ID</th>
+            <th scope="col">Foto</th>
             <th scope="col">Nombre</th>
             <th scope="col">Facción</th>
             <th scope="col">Cantidad</th>
@@ -42,6 +43,9 @@
                 <th scope="row">
                   <%= miniature.id %>
                 </th>
+                <td>
+                  <img src="<%= miniature.foto %>" alt="Imagen de la miniatura">
+                </td>
                 <td>
                   <%= miniature.nombre %>
                 </td>

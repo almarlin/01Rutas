@@ -75,59 +75,60 @@ const createMiniature = document.getElementById("createMiniature");
 
 createMiniature.addEventListener("submit", async (e) => {
   e.preventDefault();
- 
+
   // Crear un objeto FormData
   const formData = new FormData(createMiniature);
- 
+
   try {
-     // Realizar la solicitud POST utilizando fetch
-     const response = await fetch("/miniature/crear", {
-       method: "POST",
-       body: formData, // Utiliza el objeto FormData directamente
-     });
- 
-     // Manejar la respuesta del servidor
-     const result = await response.json();
- 
-     if (result.estado) {
-       console.log(result.mensaje);
-       console.log(result.miniature._id);
-       // Redireccionar o realizar otras acciones después de crear la miniatura
-       // Agregar una nueva fila a la tabla con los datos de la miniatura
-       const tableBody = document.querySelector("tbody");
-       const newRow = document.createElement("tr");
-       newRow.id = "fila-" + result.miniature._id;
-       newRow.innerHTML = `
-                 <th scope="row">${formData.get('id')}</th>
-                 <td>${formData.get('nombre')}</td>
-                 <td>${formData.get('faccion')}</td>
-                 <td id="cant-${result.miniature._id}">${formData.get('cantidad')}</td>
-                 <td>
-                  <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                     data-bs-target="#modalEditar-${result.miniature._id}">
-                     Editar
-                  </button>
-                  <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                     data-bs-target="#modalEliminar-${result.miniature._id}">
-                     Eliminar
-                  </button>
-                 </td>
-               `;
-       tableBody.appendChild(newRow);
- 
-       createEditModal(result.miniature);
-       createDeleteModal(result.miniature);
-       updateDeleteButtons();
-       updateEditButtons();
-     } else {
-       // Manejar errores o mostrar mensajes de error
-       console.error(result.mensaje);
-     }
+    // Realizar la solicitud POST utilizando fetch
+    const response = await fetch("/miniature/crear", {
+      method: "POST",
+      body: formData, // Utiliza el objeto FormData directamente
+    });
+
+    // Manejar la respuesta del servidor
+    const result = await response.json();
+
+    if (result.estado) {
+      console.log(result.mensaje);
+      console.log(result.miniature._id);
+      // Redireccionar o realizar otras acciones después de crear la miniatura
+      // Agregar una nueva fila a la tabla con los datos de la miniatura
+      const tableBody = document.querySelector("tbody");
+      const newRow = document.createElement("tr");
+      newRow.id = "fila-" + result.miniature._id;
+
+      newRow.innerHTML = `
+       <th scope="row">${result.miniature.id}</th>
+       <td><img src="${result.miniature.foto}" alt="Imagen de la miniatura"></td>
+       <td>${result.miniature.nombre}</td>
+       <td>${result.miniature.faccion}</td>
+       <td id="cant-${result.miniature._id}">${result.miniature.cantidad}</td>
+       <td>
+          <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+            data-bs-target="#modalEditar-${result.miniature._id}">
+            Editar
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+            data-bs-target="#modalEliminar-${result.miniature._id}">
+            Eliminar
+          </button>
+       </td>
+      `;
+      tableBody.appendChild(newRow);
+
+      createEditModal(result.miniature);
+      createDeleteModal(result.miniature);
+      updateDeleteButtons();
+      updateEditButtons();
+    } else {
+      // Manejar errores o mostrar mensajes de error
+      console.error(result.mensaje);
+    }
   } catch (error) {
-     console.error("Error al enviar la solicitud:", error);
+    console.error("Error al enviar la solicitud:", error);
   }
- });
- 
+});
 
 // Función para crear un nuevo modal
 function createEditModal(miniature) {
@@ -196,7 +197,7 @@ function createDeleteModal(miniature) {
   document.body.appendChild(newModal);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   updateDeleteButtons();
   updateEditButtons();
-}); 
+});

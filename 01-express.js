@@ -31,6 +31,7 @@ app.use('/miniature', require('./router/miniature'));
 
 // Servir archivos estáticos
 app.use('/static', express.static(__dirname + '/public'));
+app.use('/uploads', express.static('uploads'));
 
 // Manejo de errores  404
 app.use((req, res) => {
