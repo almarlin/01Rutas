@@ -1,99 +1,120 @@
 <%- include("template/header.ejs", { title: 'MiniTracker' })%>
 
-  <main>
-    <div class="container">
-      <h1 class="text-center fw-light">MiniTracker</h1>
-      <div class="container shadow-sm border">
-        <h5 class="fw-light mt-3 mb-3">Crear una nueva miniatura</h5>
+  <main class="min-vh-100">
+    <div class="text-center bg-dark mb-3 shadow">
+      <img src="static/img/banner.jpg  " alt="banner" class="img img-fluid">
+    </div>
+    <div class="container mb-5">
 
-
-        <form id="createMiniature" class="my-2" method="POST">
-          <input type="number" placeholder="Id" class="form-control my-2" name="id">
-          <input type="text" placeholder="Nombre" class="form-control my-2" name="nombre">
-          <input type="text" placeholder="Facción" class="form-control my-2" name="faccion">
-          <input type="number" placeholder="Cantidad" class="form-control my-2" name="cantidad">
-
-          <select class="form-select form-select-md my-2" name="estado">
-            <option selected value="En caja">En caja</option>
-            <option value="Preparado para pintar">Preparado para pintar</option>
-            <option value="Pintando">Pintando</option>
-            <option value="Termiando de pintar">Termiando de pintar</option>
-          </select>
-
-
-          <input type="file" name="foto" accept="image/*" class="form-control my-2">
-
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-success btn-block">
-              Crear
-            </button>
-          </div>
-        </form>
-      </div>
-
+      <h1 class="fw-light text-center border-bottom mb-3">Mi colección</h1>
       <div id="messages">
 
       </div>
 
-      <!-- Tabla para mostrar las miniaturas -->
-      <table class="table table-responsive mt-5">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Foto</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Facción</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if (arrayMini.length> 0) { %>
-            <% arrayMini.forEach(miniature=> { %>
-              <tr id="fila-<%=miniature._id%>">
-                <th scope="row">
-                  <%= miniature.id %>
-                </th>
-                <td>
-                  <img src="<%= miniature.foto %>" alt="<%=miniature.nombre%>" class="img img-fluid">
-                </td>
-                <td>
-                  <%= miniature.nombre %>
-                </td>
-                <td>
-                  <%= miniature.faccion %>
-                </td>
-                <td id="cant-<%=miniature._id%>">
-                  <%= miniature.cantidad %>
-                </td>
-                <td id="est-<%=miniature._id%>">
-                  <%= miniature.estado %>
-                </td>
-                <td>
-                  <!-- Botones para abrir modales de editar y eliminar -->
-                  <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#modalEditar<%= miniature._id %>">
-                    Editar
-                  </button>
-                  <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#modalEliminar-<%= miniature._id %>">
-                    Eliminar
-                  </button>
-                </td>
+      <div class="row justify-content-center align-items-start gap-2">
+        <div class="col-12 col-md-12 col-lg-3">
+          <div class="container shadow-sm border">
+            <h4 class="fw-light mt-3 mb-3 border-bottom p-1">Crear una nueva miniatura</h4>
+
+
+            <form id="createMiniature" class="my-2" method="POST">
+              <input type="number" placeholder="Id" class="form-control my-2" name="id">
+              <input type="text" placeholder="Nombre" class="form-control my-2" name="nombre">
+              <input type="text" placeholder="Facción" class="form-control my-2" name="faccion">
+              <input type="number" placeholder="Cantidad" class="form-control my-2" name="cantidad">
+
+              <select class="form-select form-select-md my-2" name="estado">
+                <option selected value="En caja">En caja</option>
+                <option value="Preparado para pintar">Preparado para pintar</option>
+                <option value="Pintando">Pintando</option>
+                <option value="Terminado de pintar">Terminado de pintar</option>
+              </select>
+
+
+              <input type="file" name="foto" accept="image/*" class="form-control my-2">
+
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success btn-block">
+                  Crear
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-8">
+          <!-- Tabla para mostrar las miniaturas -->
+          <table class="table table-responsive table-light shadow p-3 border rounded mt-5">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Facción</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Opciones</th>
               </tr>
+            </thead>
+            <tbody>
+              <% if (arrayMini.length> 0) { %>
+                <% arrayMini.forEach(miniature=> { %>
+                  <tr id="fila-<%=miniature._id%>">
+                    <th scope="row">
+                      <%= miniature.id %>
+                    </th>
+                    <td>
+                      <img src="<%= miniature.foto %>" alt="<%=miniature.nombre%>" class="img img-fluid">
+                    </td>
+                    <td>
+                      <%= miniature.nombre %>
+                    </td>
+                    <td>
+                      <%= miniature.faccion %>
+                    </td>
+                    <td id="cant-<%=miniature._id%>">
+                      <%= miniature.cantidad %>
+                    </td>
+                    <td id="est-<%=miniature._id%>">
+                      <%= miniature.estado %>
+                    </td>
+                    <td>
+                      <!-- Botones para abrir modales de editar y eliminar -->
+                      <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#modalEditar<%= miniature._id %>">
+                        Editar
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#modalEliminar-<%= miniature._id %>">
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
 
-              <!-- Modal de edición -->
-              <%- include("template/editModal.ejs", { miniature: miniature })%>
+                  <!-- Modal de edición -->
+                  <%- include("template/editModal.ejs", { miniature: miniature })%>
 
-                <!-- Modal para borrar -->
-                <%- include("template/deleteModal.ejs", { miniature: miniature })%>
+                    <!-- Modal para borrar -->
+                    <%- include("template/deleteModal.ejs", { miniature: miniature })%>
 
-                  <% }); %>
-                    <% } %>
-        </tbody>
-      </table>
+                      <% }); %>
+                        <% } %>
+            </tbody>
+          </table>
+        </div>
 
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
     </div>
   </main>
 

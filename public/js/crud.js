@@ -155,6 +155,7 @@ createMiniature.addEventListener("submit", async (e) => {
        <td>${result.miniature.nombre}</td>
        <td>${result.miniature.faccion}</td>
        <td id="cant-${result.miniature._id}">${result.miniature.cantidad}</td>
+       <td id="est-${result.miniature._id}">${result.miniature.estado}</td>
        <td>
           <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
             data-bs-target="#modalEditar-${result.miniature._id}">
