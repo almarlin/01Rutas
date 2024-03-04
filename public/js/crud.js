@@ -14,7 +14,6 @@ function updateDeleteButtons() {
         });
 
         const res = await data.json();
-        console.log(res);
 
         if (res.estado) {
           const fila = document.getElementById(`fila-${id}`);
@@ -22,8 +21,31 @@ function updateDeleteButtons() {
             // Elimina la fila de la tabla
             fila.remove();
           }
+          let messagesContainer = document.getElementById("messages");
+
+          // Crear un nuevo elemento div para contener el mensaje
+          const includedContent = document.createElement("div");
+
+          // Asignar el contenido HTML desde la plantilla EJS utilizando include
+          includedContent.innerHTML = `
+      <div class="alert alert-success alert-dismissible fade show mt-5 mb-5 ">
+        <p>${res.mensaje}.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+          messagesContainer.appendChild(includedContent);
         } else {
-          console.log(res);
+          let messagesContainer = document.getElementById("messages");
+
+          // Crear un nuevo elemento div para contener el mensaje
+          const includedContent = document.createElement("div");
+
+          // Asignar el contenido HTML desde la plantilla EJS utilizando include
+          includedContent.innerHTML = `
+      <div class="alert alert-danger alert-dismissible fade show mt-5 mb-5 ">
+        <p>${res.mensaje}.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+          messagesContainer.appendChild(includedContent);
         }
       } catch (error) {
         console.log(error);
@@ -44,7 +66,7 @@ function updateEditButtons() {
       // Obtener los valores de los campos del formulario
 
       const cantidad = formsEditar[i].elements["cantidad"].value;
-
+      const estado = formsEditar[i].elements["estado"].value;
       try {
         // Enviar los datos al servidor usando fetch y el método PUT
         const data = await fetch(`/miniature/${_id}`, {
@@ -52,7 +74,7 @@ function updateEditButtons() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cantidad }),
+          body: JSON.stringify({ cantidad, estado }),
         });
 
         const res = await data.json();
@@ -62,8 +84,37 @@ function updateEditButtons() {
           if (cant) {
             cant.textContent = cantidad;
           }
+          const est=document.getElementById(`est-${_id}`);
+
+          if(est){
+            est.textContent=estado;
+          }
+
+          let messagesContainer = document.getElementById("messages");
+
+          // Crear un nuevo elemento div para contener el mensaje
+          const includedContent = document.createElement("div");
+
+          // Asignar el contenido HTML desde la plantilla EJS utilizando include
+          includedContent.innerHTML = `
+      <div class="alert alert-success alert-dismissible fade show mt-5 mb-5 ">
+        <p>${res.mensaje}.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+          messagesContainer.appendChild(includedContent);
         } else {
-          console.log(res);
+          let messagesContainer = document.getElementById("messages");
+
+          // Crear un nuevo elemento div para contener el mensaje
+          const includedContent = document.createElement("div");
+
+          // Asignar el contenido HTML desde la plantilla EJS utilizando include
+          includedContent.innerHTML = `
+      <div class="alert alert-danger alert-dismissible fade show mt-5 mb-5 ">
+        <p>${res.mensaje}.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+          messagesContainer.appendChild(includedContent);
         }
       } catch (error) {
         console.log(error);
@@ -100,7 +151,7 @@ createMiniature.addEventListener("submit", async (e) => {
 
       newRow.innerHTML = `
        <th scope="row">${result.miniature.id}</th>
-       <td><img src="${result.miniature.foto}" alt="Imagen de la miniatura"></td>
+       <td><img src="${result.miniature.foto}" alt="${result.miniature.nombre}" class="img img-fluid"></td>
        <td>${result.miniature.nombre}</td>
        <td>${result.miniature.faccion}</td>
        <td id="cant-${result.miniature._id}">${result.miniature.cantidad}</td>
@@ -121,9 +172,33 @@ createMiniature.addEventListener("submit", async (e) => {
       createDeleteModal(result.miniature);
       updateDeleteButtons();
       updateEditButtons();
+
+      let messagesContainer = document.getElementById("messages");
+
+      // Crear un nuevo elemento div para contener el mensaje
+      const includedContent = document.createElement("div");
+
+      // Asignar el contenido HTML desde la plantilla EJS utilizando include
+      includedContent.innerHTML = `
+      <div class="alert alert-success alert-dismissible fade show mt-5 mb-5 ">
+        <p>${result.mensaje}.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+      messagesContainer.appendChild(includedContent);
     } else {
       // Manejar errores o mostrar mensajes de error
-      console.error(result.mensaje);
+      let messagesContainer = document.getElementById("messages");
+
+      // Crear un nuevo elemento div para contener el mensaje
+      const includedContent = document.createElement("div");
+
+      // Asignar el contenido HTML desde la plantilla EJS utilizando include
+      includedContent.innerHTML = `
+      <div class="alert alert-danger alert-dismissible fade show mt-5 mb-5 ">
+        <p>${result.mensaje}.</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+      messagesContainer.appendChild(includedContent);
     }
   } catch (error) {
     console.error("Error al enviar la solicitud:", error);
@@ -157,6 +232,12 @@ function createEditModal(miniature) {
               <label for="cantidad" class="form-label">Cantidad:</label>
               <input type="number" class="form-control" id="cantidad" name="cantidad" value="${miniature.cantidad}">
             </div>
+            <select class="form-select form-select-md my-2" name="estado">
+            <option selected value="En caja">En caja</option>
+            <option value="Preparado para pintar">Preparado para pintar</option>
+            <option value="Pintando">Pintando</option>
+            <option value="Termiando de pintar">Termiando de pintar</option>
+          </select>
 
             <!-- Botón de envío del formulario -->
             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar Cambios</button>

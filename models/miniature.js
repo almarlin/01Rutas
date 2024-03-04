@@ -8,6 +8,7 @@ const miniSchema=new Schema({
     nombre:String,
     faccion:String,
     cantidad:String,
+    estado:String,
     foto:String,
 
 });

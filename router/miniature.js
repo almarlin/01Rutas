@@ -46,6 +46,7 @@ router.post("/crear", upload.single("foto"), async (req, res) => {
         nombre: body.nombre,
         faccion: body.faccion,
         cantidad: body.cantidad,
+        estado:body.estado,
         // Añade la ruta del archivo al modelo de Miniature si es necesario
         foto: file ? file.path : null,
       });
@@ -67,22 +68,7 @@ router.post("/crear", upload.single("foto"), async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const miniDB = await Miniature.findOne({ _id: id });
-    res.render("detalle", {
-      miniature: miniDB,
-      error: false,
-    });
-  } catch (error) {
-    console.log("Se ha producido un error ", error);
-    res.render("detalle", {
-      error: true,
-      mensaje: "Miniatura no encontrada",
-    });
-  }
-});
+
 
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;

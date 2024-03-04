@@ -17,6 +17,12 @@
               <input type="number" class="form-control" id="cantidad" name="cantidad"
                 value="<%= miniature.cantidad %>">
             </div>
+            <select class="form-select form-select-md my-2" name="estado">
+                <option selected value="En caja">En caja</option>
+                <option value="Preparado para pintar">Preparado para pintar</option>
+                <option value="Pintando">Pintando</option>
+                <option value="Termiando de pintar">Termiando de pintar</option>
+              </select>
 
             <!-- Botón de envío del formulario -->
             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar Cambios</button>

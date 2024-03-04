@@ -12,6 +12,15 @@
           <input type="text" placeholder="Nombre" class="form-control my-2" name="nombre">
           <input type="text" placeholder="Facción" class="form-control my-2" name="faccion">
           <input type="number" placeholder="Cantidad" class="form-control my-2" name="cantidad">
+
+          <select class="form-select form-select-md my-2" name="estado">
+            <option selected value="En caja">En caja</option>
+            <option value="Preparado para pintar">Preparado para pintar</option>
+            <option value="Pintando">Pintando</option>
+            <option value="Termiando de pintar">Termiando de pintar</option>
+          </select>
+
+
           <input type="file" name="foto" accept="image/*" class="form-control my-2">
 
           <div class="d-flex justify-content-end">
@@ -22,10 +31,12 @@
         </form>
       </div>
 
+      <div id="messages">
 
+      </div>
 
       <!-- Tabla para mostrar las miniaturas -->
-      <table class="table">
+      <table class="table table-responsive mt-5">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -33,6 +44,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Facción</th>
             <th scope="col">Cantidad</th>
+            <th scope="col">Estado</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
@@ -44,7 +56,7 @@
                   <%= miniature.id %>
                 </th>
                 <td>
-                  <img src="<%= miniature.foto %>" alt="Imagen de la miniatura">
+                  <img src="<%= miniature.foto %>" alt="<%=miniature.nombre%>" class="img img-fluid">
                 </td>
                 <td>
                   <%= miniature.nombre %>
@@ -54,6 +66,9 @@
                 </td>
                 <td id="cant-<%=miniature._id%>">
                   <%= miniature.cantidad %>
+                </td>
+                <td id="est-<%=miniature._id%>">
+                  <%= miniature.estado %>
                 </td>
                 <td>
                   <!-- Botones para abrir modales de editar y eliminar -->
