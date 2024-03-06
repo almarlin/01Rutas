@@ -41,7 +41,7 @@ app.use((req, res) => {
 // Configuración de la base de datos
 require('dotenv').config();
 
-const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.ylzwpme.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = `mongodb+srv://admin:${process.env.PASSWORD}@cluster0.ylzwpme.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Base de datos conectada'))
